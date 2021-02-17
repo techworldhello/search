@@ -3,6 +3,8 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"github.com/techworldhello/search/pkg/setup"
+	"log"
 	"os"
 	"strings"
 
@@ -10,6 +12,19 @@ import (
 )
 
 func main() {
+	files := setup.NewFilePaths(
+		"./pkg/data/users.json",
+		"./pkg/data/tickets.json",
+		"./pkg/data/organizations.json",
+	)
+
+	data, err := files.PrepareJSONData()
+	if err != nil {
+		log.Fatal("Error preparing files, please check them and try again.")
+	}
+
+	fmt.Print(data)
+
 	command.PrintStartMessage()
 	input := readUserInput()
 
