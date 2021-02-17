@@ -10,6 +10,7 @@ type User struct {
 	Records []schema.User
 }
 
+// UserResult holds the user search result
 type UserResult struct {
 	data []schema.User
 }
