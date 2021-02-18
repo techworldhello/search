@@ -35,33 +35,34 @@ func main() {
 	for input != enum.Quit.String() {
 		if isStart {
 			isStart = false
-			fmt.Println(text.GetMenu())
+			text.ColourCyan(text.GetMenu())
 		}
 
 		input = readUserInput()
 
 		switch input {
 		case enum.Search.String():
-			fmt.Println(text.GetSearchInstructions())
+			text.ColourGreen(text.GetSearchInstructions())
 
 			params := param.Parse(readUserInput())
 			if params == (param.Params{}) {
 				fmt.Println("Invalid params, please use the format [entity]=[term]:[value].")
 				continue
 			}
-			fmt.Println(run.ProcessSearch(params))
+			text.ColourWhite(run.ProcessSearch(params))
 		case enum.List.String():
+			//text.ColourYellow(run.List())
 			fmt.Println("_____ listing _____")
 		case enum.Enter.String():
-			fmt.Println(text.GetMenu())
+			text.ColourCyan(text.GetMenu())
 		case enum.Help.String():
-			fmt.Println(text.GetMenu())
+			text.ColourCyan(text.GetMenu())
 		case enum.Quit.String():
-			fmt.Println(text.GetEndMsg())
+			text.ColourPurple(text.GetEndMsg())
 			return
 		}
 	}
-	fmt.Println(text.GetEndMsg())
+	text.ColourPurple(text.GetEndMsg())
 }
 
 func readUserInput() string {
