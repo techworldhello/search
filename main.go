@@ -28,8 +28,9 @@ func main() {
 	}
 
 	run := run.NewSearchRepo(data)
+	fields := format.NewFields()
 
-	fmt.Println(text.GetStartMsg())
+	text.ColourPurple(text.GetStartMsg())
 	input := readUserInput()
 
 	var isStart = true
@@ -52,8 +53,7 @@ func main() {
 			}
 			text.ColourWhite(run.ProcessSearch(params))
 		case enum.List.String():
-			f := format.Fields{}
-			text.ColourYellow(f.List())
+			text.ColourYellow(fields.List())
 		case enum.Enter.String():
 			text.ColourCyan(text.GetMenu())
 		case enum.Help.String():
