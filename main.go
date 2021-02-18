@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"github.com/techworldhello/search/pkg/format"
 	"github.com/techworldhello/search/pkg/param"
 	"github.com/techworldhello/search/pkg/run"
 	"github.com/techworldhello/search/pkg/setup"
@@ -51,8 +52,8 @@ func main() {
 			}
 			text.ColourWhite(run.ProcessSearch(params))
 		case enum.List.String():
-			//text.ColourYellow(run.List())
-			fmt.Println("_____ listing _____")
+			f := format.Fields{}
+			text.ColourYellow(f.List())
 		case enum.Enter.String():
 			text.ColourCyan(text.GetMenu())
 		case enum.Help.String():
