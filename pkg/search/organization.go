@@ -3,6 +3,7 @@ package search
 import (
 	"github.com/techworldhello/search/pkg/schema"
 	"strconv"
+	"strings"
 )
 
 // Organization holds the organization data to search against
@@ -18,6 +19,24 @@ type OrganizationResult struct {
 
 func (o OrganizationResult) GetSize() int {
 	return o.size
+}
+
+func (o OrganizationResult) Format() (all [][]string) {
+	for _, v := range o.data {
+		var row []string
+
+		row = append(row,
+			strconv.Itoa(v.ID),
+			v.Name,
+			strings.Join(v.DomainNames, ",\n"),
+			v.CreatedAt,
+			v.Details,
+			strconv.FormatBool(v.SharedTickets),
+			strings.Join(v.Tags, ",\n"),
+		)
+		all = append(all, row)
+	}
+	return all
 }
 
 // Search returns all organization results matching on term and value

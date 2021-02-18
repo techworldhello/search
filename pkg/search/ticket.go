@@ -3,6 +3,7 @@ package search
 import (
 	"github.com/techworldhello/search/pkg/schema"
 	"strconv"
+	"strings"
 )
 
 // Ticket holds the ticket data to search against
@@ -18,6 +19,30 @@ type TicketResult struct {
 
 func (t TicketResult) GetSize() int {
 	return t.size
+}
+
+func (t TicketResult) Format() (all [][]string) {
+	for _, v := range t.data {
+		var row []string
+
+		row = append(row,
+			v.ID,
+			v.Type,
+			v.Subject,
+			v.Description,
+			v.Priority,
+			v.Status,
+			strconv.Itoa(v.SubmitterID),
+			strconv.Itoa(v.AssigneeID),
+			strconv.Itoa(v.OrganizationID),
+			strings.Join(v.Tags, ",\n"),
+			strconv.FormatBool(v.HasIncidents),
+			v.DueAt,
+			v.Via,
+		)
+		all = append(all, row)
+	}
+	return all
 }
 
 // Search returns all ticket results matching on term and value

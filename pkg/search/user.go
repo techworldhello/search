@@ -3,6 +3,7 @@ package search
 import (
 	"github.com/techworldhello/search/pkg/schema"
 	"strconv"
+	"strings"
 )
 
 // User holds the user data to search against
@@ -18,6 +19,32 @@ type UserResult struct {
 
 func (u UserResult) GetSize() int {
 	return u.size
+}
+
+func (u UserResult) Format() (all [][]string) {
+	for _, v := range u.data {
+		var row []string
+
+		row = append(row,
+			strconv.Itoa(v.ID),
+			v.Name,
+			v.Alias,
+			strconv.FormatBool(v.Active),
+			strconv.FormatBool(v.Verified),
+			strconv.FormatBool(v.Shared),
+			v.Locale,
+			v.Timezone,
+			v.Email,
+			v.Phone,
+			v.Signature,
+			strconv.Itoa(v.OrganizationID),
+			strings.Join(v.Tags, ",\n"),
+			strconv.FormatBool(v.Suspended),
+			v.Role,
+		)
+		all = append(all, row)
+	}
+	return all
 }
 
 // Search returns all user results matching on term and value
