@@ -1,0 +1,12 @@
+version: '3.4'
+services:
+  search:
+    build: .
+    command: ['go', 'run', 'main.go']
+    environment:
+      USERS_FILE: './pkg/data/users.json'
+      TICKETS_FILE: './pkg/data/tickets.json'
+      ORGANIZATIONS_FILE: './pkg/data/organizations.json'
+  tests:
+    build: .
+    command: ['go', 'test', '-v', './...', '-cover']

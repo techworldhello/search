@@ -17,9 +17,9 @@ import (
 
 func main() {
 	files := setup.NewFilePaths(
-		"./pkg/data/users.json",
-		"./pkg/data/tickets.json",
-		"./pkg/data/organizations.json",
+		os.Getenv("USERS_FILE"),
+		os.Getenv("TICKETS_FILE"),
+		os.Getenv("ORGANIZATIONS_FILE"),
 	)
 
 	data, err := files.PrepareJSONData()
