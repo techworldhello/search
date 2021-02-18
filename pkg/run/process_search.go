@@ -18,28 +18,28 @@ type Handler interface {
 	Searcher
 }
 
-// SearchRepo holds the data needed to execute search and list
+// SearchRepo holds the data needed to execute search
 type SearchRepo struct {
 	setup.Data
 	table format.Table
 }
 
-// NewSearchRepo returns an initialised instance of Actions
+// NewSearchRepo returns an initialised instance of SearchRepo
 func NewSearchRepo(d setup.Data) *SearchRepo {
 	return &SearchRepo{Data: d}
 }
 
 // ProcessSearch returns search results based on the entity parameter
-func (a SearchRepo) ProcessSearch(params param.Params) string {
+func (s SearchRepo) ProcessSearch(params param.Params) string {
 	var h Handler
 
 	switch params.Entity {
 	case "users":
-		h = a.User
+		h = s.User
 	case "tickets":
-		h = a.Ticket
+		h = s.Ticket
 	case "organizations":
-		h = a.Organization
+		h = s.Organization
 	default:
 		return fmt.Sprintf("Data type %s does not exist", params.Entity)
 	}
@@ -49,7 +49,7 @@ func (a SearchRepo) ProcessSearch(params param.Params) string {
 		return "No results found"
 	}
 
-	a.table.Render(result)
+	s.table.Render(result)
 
 	return ""
 }

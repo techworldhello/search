@@ -13,9 +13,14 @@ type Fields struct {
 	schema.Organization
 }
 
+// NewFields returns an initialised instance of Fields
+func NewFields() *Fields {
+	return &Fields{}
+}
+
 // List returns all searchable fields
 func (f Fields) List() string {
-	tagsMap := getJsonTagsInMap(f.User, f.Ticket, f.Organization)
+	tagsMap := getHeaderTagsInMap(f.User, f.Ticket, f.Organization)
 
 	var output string
 	for k, v := range tagsMap {

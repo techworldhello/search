@@ -2,13 +2,13 @@ package text
 
 import "fmt"
 
-// GetStartMsg returns welcome msg
+// GetStartMsg returns a welcome msg
 func GetStartMsg() string {
 	return fmt.Sprint(">>> Welcome to Zendesk Search <<<\n" +
 		"Type 'quit' to exit at any time, press 'Enter' to continue")
 }
 
-// GetMenu returns a search menu msg
+// GetMenu returns a search menu
 func GetMenu() string {
 	return fmt.Sprint("Select search options:\n" +
 		"  * Press 1 to search Zendesk\n" +
@@ -16,12 +16,12 @@ func GetMenu() string {
 		"  * Type 'quit' to exit")
 }
 
-// GetEndMsg returns goodbye msg
+// GetEndMsg returns a goodbye msg
 func GetEndMsg() string {
 	return "Thanks for visiting. Enjoy your day!"
 }
 
-// GetSearchInstructions returns a search instructions msg
+// GetSearchInstructions returns search instructions
 func GetSearchInstructions() string {
 	return "Please search using the following format [entity]=[term]:[value]\n" +
 		"  Eg. users=_id:1\n" +

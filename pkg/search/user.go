@@ -17,10 +17,12 @@ type UserResult struct {
 	size int
 }
 
+// GetSize returns the size of user result
 func (u UserResult) GetSize() int {
 	return u.size
 }
 
+// Format formats all user results
 func (u UserResult) Format() (all [][]string) {
 	for _, v := range u.data {
 		var row []string

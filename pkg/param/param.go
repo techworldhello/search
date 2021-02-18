@@ -9,7 +9,7 @@ type Params struct {
 	Value  string
 }
 
-// Parse returns 3 search params required by Searcher
+// Parse returns the search params required by Searcher
 func Parse(params string) Params {
 	reg, err := regexp.Compile("(users|tickets|organizations)=(.*):(.*)")
 	if err != nil {

@@ -23,7 +23,7 @@ func TestProcessSearch(t *testing.T) {
 				Term:   "_id",
 				Value:  "4",
 			},
-			expected: expectedUserRecord,
+			expected: "",
 		},
 		{
 			name: "User record is not found on search value",
@@ -41,7 +41,7 @@ func TestProcessSearch(t *testing.T) {
 				Term:   "priority",
 				Value:  "high",
 			},
-			expected: expectedTicketRecord,
+			expected: "",
 		},
 		{
 			name: "Ticket record is not found on search key",
@@ -68,7 +68,7 @@ func TestProcessSearch(t *testing.T) {
 				Term:   "tags",
 				Value:  "Cherry",
 			},
-			expected: expectedOrgRecord,
+			expected: "",
 		},
 		{
 			name: "Organization record is not found on search value",
