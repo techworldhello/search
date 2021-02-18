@@ -17,10 +17,12 @@ type OrganizationResult struct {
 	size int
 }
 
+// GetSize returns the size of organization result
 func (o OrganizationResult) GetSize() int {
 	return o.size
 }
 
+// Format formats all organization results
 func (o OrganizationResult) Format() (all [][]string) {
 	for _, v := range o.data {
 		var row []string
@@ -29,7 +31,6 @@ func (o OrganizationResult) Format() (all [][]string) {
 			strconv.Itoa(v.ID),
 			v.Name,
 			strings.Join(v.DomainNames, ",\n"),
-			v.CreatedAt,
 			v.Details,
 			strconv.FormatBool(v.SharedTickets),
 			strings.Join(v.Tags, ",\n"),

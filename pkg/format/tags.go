@@ -14,7 +14,7 @@ func getHeaderTags(entity interface{}) (tags []string) {
 	return tags
 }
 
-func getJsonTagsInMap(entities ...interface{}) (tags map[string][]string) {
+func getHeaderTagsInMap(entities ...interface{}) (tags map[string][]string) {
 	for _, entity := range entities {
 		v := reflect.ValueOf(entity)
 		name := reflect.TypeOf(entity).Name()
@@ -23,7 +23,9 @@ func getJsonTagsInMap(entities ...interface{}) (tags map[string][]string) {
 			if tags == nil {
 				tags = make(map[string][]string)
 			}
-			tags[name] = append(tags[name], v.Type().Field(i).Tag.Get("json"))
+			if v.Type().Field(i).Tag.Get("header") != "" {
+				tags[name] = append(tags[name], v.Type().Field(i).Tag.Get("json"))
+			}
 		}
 	}
 

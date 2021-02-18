@@ -20,12 +20,12 @@ func TestGetHeaderTags(t *testing.T) {
 		{
 			name: "Ticket record header tags are correctly returned",
 			entity: schema.Ticket{},
-			expected: []string{"ID", "Type", "Subject", "Description", "Priority", "Status", "SubmitterID", "AssigneeID", "OrganizationID", "Tags", "HasIncidents", "DueAt", "Via"},
+			expected: []string{"ID", "Type", "Subject", "Description", "Priority", "Status", "SubmitterID", "AssigneeID", "OrganizationID", "Tags", "HasIncidents", "Via"},
 		},
 		{
 			name: "Organization record header tags are correctly returned",
 			entity: schema.Organization{},
-			expected: []string{"ID", "Name", "DomainNames", "CreatedAt", "Details", "SharedTickets", "Tags"},
+			expected: []string{"ID", "Name", "DomainNames", "Details", "SharedTickets", "Tags"},
 		},
 		{
 			name: "No tags are returned as no properties exist on struct",
@@ -41,7 +41,7 @@ func TestGetHeaderTags(t *testing.T) {
 	}
 }
 
-func TestGetJSONTags(t *testing.T) {
+func TestGetHeaderTagsInMap(t *testing.T) {
 	expectations := []struct {
 		name     string
 		entity   interface{}
@@ -50,17 +50,17 @@ func TestGetJSONTags(t *testing.T) {
 		{
 			name: "User record json tags are correctly returned",
 			entity: schema.User{},
-			expected: map[string][]string{"User":{"_id", "url", "external_id", "name", "alias", "created_at", "active", "verified", "shared", "locale", "timezone", "last_login_at", "email", "phone", "signature", "organization_id", "tags", "suspended", "role"}},
+			expected: map[string][]string{"User":{"_id", "name", "alias", "active", "verified", "shared", "locale", "timezone", "email", "phone", "signature", "organization_id", "tags", "suspended", "role"}},
 		},
 		{
 			name: "Ticket record json tags are correctly returned",
 			entity: schema.Ticket{},
-			expected: map[string][]string{"Ticket":{"_id", "url", "external_id", "created_at", "type", "subject", "description", "priority", "status", "submitter_id", "assignee_id", "organization_id", "tags", "has_incidents", "due_at", "via"}},
+			expected: map[string][]string{"Ticket":{"_id", "type", "subject", "description", "priority", "status", "submitter_id", "assignee_id", "organization_id", "tags", "has_incidents", "via"}},
 		},
 		{
 			name: "Organization record json tags are correctly returned",
 			entity: schema.Organization{},
-			expected: map[string][]string{"Organization":{"_id", "url", "external_id", "name", "domain_names", "created_at", "details", "shared_tickets", "tags"}},
+			expected: map[string][]string{"Organization":{"_id", "name", "domain_names", "details", "shared_tickets", "tags"}},
 		},
 		{
 			name: "No tags are returned as no properties exist on struct",
@@ -71,7 +71,7 @@ func TestGetJSONTags(t *testing.T) {
 
 	for _, expect := range expectations {
 		t.Run(expect.name, func(t *testing.T) {
-			assert.Equal(t, expect.expected, getJsonTagsInMap(expect.entity))
+			assert.Equal(t, expect.expected, getHeaderTagsInMap(expect.entity))
 		})
 	}
 }

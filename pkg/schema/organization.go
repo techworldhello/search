@@ -7,7 +7,7 @@ type Organization struct {
 	ExternalID    string   `json:"external_id"`
 	Name          string   `json:"name" header:"Name"`
 	DomainNames   []string `json:"domain_names" header:"DomainNames"`
-	CreatedAt     string   `json:"created_at" header:"CreatedAt"`
+	CreatedAt     string   `json:"created_at"`
 	Details       string   `json:"details" header:"Details"`
 	SharedTickets bool     `json:"shared_tickets" header:"SharedTickets"`
 	Tags          []string `json:"tags" header:"Tags"`

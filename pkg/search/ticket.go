@@ -17,10 +17,12 @@ type TicketResult struct {
 	size int
 }
 
+// GetSize returns the size of ticket result
 func (t TicketResult) GetSize() int {
 	return t.size
 }
 
+// Format formats all ticket results
 func (t TicketResult) Format() (all [][]string) {
 	for _, v := range t.data {
 		var row []string
@@ -37,7 +39,6 @@ func (t TicketResult) Format() (all [][]string) {
 			strconv.Itoa(v.OrganizationID),
 			strings.Join(v.Tags, ",\n"),
 			strconv.FormatBool(v.HasIncidents),
-			v.DueAt,
 			v.Via,
 		)
 		all = append(all, row)

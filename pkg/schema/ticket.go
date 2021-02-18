@@ -16,7 +16,7 @@ type Ticket struct {
 	OrganizationID int      `json:"organization_id" header:"OrganizationID"`
 	Tags           []string `json:"tags" header:"Tags"`
 	HasIncidents   bool     `json:"has_incidents" header:"HasIncidents"`
-	DueAt          string   `json:"due_at" header:"DueAt"`
+	DueAt          string   `json:"due_at"`
 	Via            string   `json:"via" header:"Via"`
 }
 

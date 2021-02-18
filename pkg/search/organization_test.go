@@ -186,7 +186,7 @@ func TestSearch(t *testing.T) {
 func TestFormatOrganizationWorks(t *testing.T) {
 	orgsResult := OrganizationResult{data: mocks.GetOrganizationTestData(), size: 3}
 
-	result := [][]string{{"101", "Enthaze", "kage.com,\necratic.com,\nendipin.com,\nzentix.com", "2016-05-21T11:10:28 -10:00", "MegaCorp", "false", "Fulton,\nWest,\nRodriguez,\nFarley"}, {"102", "Nutralab", "trollery.com,\ndatagen.com,\nbluegrain.com,\ndadabase.com", "2016-04-07T08:21:44 -10:00", "Non profit", "false", "Cherry,\nCollier,\nFuentes,\nTrevino"}, {"103", "Plasmos", "comvex.com,\nautomon.com,\nverbus.com,\ngogol.com", "2016-05-28T04:40:37 -10:00", "", "true", "Parrish,\nLindsay,\nArmstrong,\nVaughn"}}
+	result := [][]string{{"101", "Enthaze", "kage.com,\necratic.com,\nendipin.com,\nzentix.com", "MegaCorp", "false", "Fulton,\nWest,\nRodriguez,\nFarley"}, {"102", "Nutralab", "trollery.com,\ndatagen.com,\nbluegrain.com,\ndadabase.com", "Non profit", "false", "Cherry,\nCollier,\nFuentes,\nTrevino"}, {"103", "Plasmos", "comvex.com,\nautomon.com,\nverbus.com,\ngogol.com", "", "true", "Parrish,\nLindsay,\nArmstrong,\nVaughn"}}
 
 	assert.Equal(t, result, orgsResult.Format())
 }
