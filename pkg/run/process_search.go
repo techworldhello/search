@@ -2,6 +2,7 @@ package run
 
 import (
 	"fmt"
+	"github.com/techworldhello/search/pkg/format"
 	"github.com/techworldhello/search/pkg/param"
 	"github.com/techworldhello/search/pkg/search"
 	"github.com/techworldhello/search/pkg/setup"
@@ -20,6 +21,7 @@ type Handler interface {
 // SearchRepo holds the data needed to execute search and list
 type SearchRepo struct {
 	setup.Data
+	table format.Table
 }
 
 // NewSearchRepo returns an initialised instance of Actions
@@ -47,5 +49,7 @@ func (a SearchRepo) ProcessSearch(params param.Params) string {
 		return "No results found"
 	}
 
-	return fmt.Sprintf("%+v", result)
+	a.table.Render(result)
+
+	return ""
 }
