@@ -137,3 +137,12 @@ func TestPrepareJSONDataCannotFindFile(t *testing.T) {
 	assert.Equal(t, Data{}, data)
 	assert.Contains(t, err.Error(), "no such file or directory")
 }
+
+func TestPrepareJSONDataCannotUnmarshalData(t *testing.T) {
+	f := FilePaths{User: "../mocks/wrong-format.xml"}
+
+	data, err := f.PrepareJSONData()
+
+	assert.Equal(t, Data{}, data)
+	assert.Contains(t, err.Error(), "invalid character '<'")
+}
