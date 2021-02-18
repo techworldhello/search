@@ -19,7 +19,7 @@ func TestSearch(t *testing.T) {
 			keyTerm: "_id",
 			value:   "102",
 			expected: OrganizationResult{
-				[]schema.Organization{
+				data: []schema.Organization{
 					{
 						ID:            102,
 						URL:           "http://initech.zendesk.com/api/v2/organizations/102.json",
@@ -32,6 +32,7 @@ func TestSearch(t *testing.T) {
 						Tags:          []string{"Cherry", "Collier", "Fuentes", "Trevino"},
 					},
 				},
+				size: 1,
 			},
 		},
 		{
@@ -39,7 +40,7 @@ func TestSearch(t *testing.T) {
 			keyTerm: "name",
 			value:   "Enthaze",
 			expected: OrganizationResult{
-				[]schema.Organization{
+				data: []schema.Organization{
 					{
 						ID:            101,
 						URL:           "http://initech.zendesk.com/api/v2/organizations/101.json",
@@ -52,6 +53,7 @@ func TestSearch(t *testing.T) {
 						Tags:          []string{"Fulton", "West", "Rodriguez", "Farley"},
 					},
 				},
+				size: 1,
 			},
 		},
 		{
@@ -59,7 +61,7 @@ func TestSearch(t *testing.T) {
 			keyTerm: "domain_names",
 			value:   "bluegrain.com",
 			expected: OrganizationResult{
-				[]schema.Organization{
+				data: []schema.Organization{
 					{
 						ID:            102,
 						URL:           "http://initech.zendesk.com/api/v2/organizations/102.json",
@@ -72,6 +74,7 @@ func TestSearch(t *testing.T) {
 						Tags:          []string{"Cherry", "Collier", "Fuentes", "Trevino"},
 					},
 				},
+				size: 1,
 			},
 		},
 		{
@@ -79,7 +82,7 @@ func TestSearch(t *testing.T) {
 			keyTerm: "tags",
 			value:   "Armstrong",
 			expected: OrganizationResult{
-				[]schema.Organization{
+				data: []schema.Organization{
 					{
 						ID:            103,
 						URL:           "http://initech.zendesk.com/api/v2/organizations/103.json",
@@ -92,6 +95,7 @@ func TestSearch(t *testing.T) {
 						Tags:          []string{"Parrish", "Lindsay", "Armstrong", "Vaughn"},
 					},
 				},
+				size: 1,
 			},
 		},
 		{
@@ -99,7 +103,7 @@ func TestSearch(t *testing.T) {
 			keyTerm: "details",
 			value:   "",
 			expected: OrganizationResult{
-				[]schema.Organization{
+				data: []schema.Organization{
 					{
 						ID:            103,
 						URL:           "http://initech.zendesk.com/api/v2/organizations/103.json",
@@ -112,6 +116,7 @@ func TestSearch(t *testing.T) {
 						Tags:          []string{"Parrish", "Lindsay", "Armstrong", "Vaughn"},
 					},
 				},
+				size: 1,
 			},
 		},
 		{
@@ -119,7 +124,7 @@ func TestSearch(t *testing.T) {
 			keyTerm: "shared_tickets",
 			value:   "false",
 			expected: OrganizationResult{
-				[]schema.Organization{
+				data: []schema.Organization{
 					{
 						ID:            101,
 						URL:           "http://initech.zendesk.com/api/v2/organizations/101.json",
@@ -143,25 +148,26 @@ func TestSearch(t *testing.T) {
 						Tags:          []string{"Cherry", "Collier", "Fuentes", "Trevino"},
 					},
 				},
+				size: 2,
 			},
 		},
 		{
 			name:     "Not found — matched key, unmatched value",
 			keyTerm:  "shared_tickets",
 			value:    "unmatched",
-			expected: OrganizationResult{[]schema.Organization(nil)},
+			expected: OrganizationResult{data: []schema.Organization(nil), size: 0},
 		},
 		{
 			name:     "Not found — unmatched key, matched value",
 			keyTerm:  "not_found",
 			value:    "101",
-			expected: OrganizationResult{[]schema.Organization(nil)},
+			expected: OrganizationResult{data: []schema.Organization(nil), size: 0},
 		},
 		{
 			name:     "Not found — unmatched key & value",
 			keyTerm:  "not_found",
 			value:    "not_found",
-			expected: OrganizationResult{[]schema.Organization(nil)},
+			expected: OrganizationResult{data: []schema.Organization(nil), size: 0},
 		},
 	}
 

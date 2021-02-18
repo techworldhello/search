@@ -13,6 +13,11 @@ type Organization struct {
 // OrganizationResult holds the organization search result
 type OrganizationResult struct {
 	data []schema.Organization
+	size int
+}
+
+func (o OrganizationResult) GetSize() int {
+	return o.size
 }
 
 // Search returns all organization results matching on term and value
@@ -56,6 +61,7 @@ func (organization Organization) Search(term, value string) Result {
 
 			if dataValue == searchValue {
 				orgs.data = append(orgs.data, org)
+				orgs.size++
 			}
 		}
 	}

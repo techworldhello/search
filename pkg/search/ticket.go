@@ -13,6 +13,11 @@ type Ticket struct {
 // TicketResult holds the ticket search result
 type TicketResult struct {
 	data []schema.Ticket
+	size int
+}
+
+func (t TicketResult) GetSize() int {
+	return t.size
 }
 
 // Search returns all ticket results matching on term and value
@@ -48,6 +53,7 @@ func (ticket Ticket) Search(term, value string) Result {
 
 			if dataValue == searchValue {
 				tickets.data = append(tickets.data, ticket)
+				tickets.size++
 			}
 		}
 	}

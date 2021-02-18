@@ -13,6 +13,11 @@ type User struct {
 // UserResult holds the user search result
 type UserResult struct {
 	data []schema.User
+	size int
+}
+
+func (u UserResult) GetSize() int {
+	return u.size
 }
 
 // Search returns all user results matching on term and value
@@ -49,6 +54,7 @@ func (user User) Search(term, value string) Result {
 
 			if dataValue == searchValue {
 				users.data = append(users.data, usr)
+				users.size++
 			}
 		}
 	}

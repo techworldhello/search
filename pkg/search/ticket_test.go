@@ -19,7 +19,7 @@ func TestSearchTicket(t *testing.T) {
 			keyTerm: "_id",
 			value:   "436bf9b0-1147-4c0a-8439-6f79833bff5b",
 			expected: TicketResult{
-				[]schema.Ticket{
+				data: []schema.Ticket{
 					{
 						ID:             "436bf9b0-1147-4c0a-8439-6f79833bff5b",
 						URL:            "http://initech.zendesk.com/api/v2/tickets/436bf9b0-1147-4c0a-8439-6f79833bff5b.json",
@@ -39,6 +39,7 @@ func TestSearchTicket(t *testing.T) {
 						Via:            "web",
 					},
 				},
+				size: 1,
 			},
 		},
 		{
@@ -46,7 +47,7 @@ func TestSearchTicket(t *testing.T) {
 			keyTerm: "tags",
 			value:   "American Samoa",
 			expected: TicketResult{
-				[]schema.Ticket{
+				data: []schema.Ticket{
 					{
 						ID:             "436bf9b0-1147-4c0a-8439-6f79833bff5b",
 						URL:            "http://initech.zendesk.com/api/v2/tickets/436bf9b0-1147-4c0a-8439-6f79833bff5b.json",
@@ -66,6 +67,7 @@ func TestSearchTicket(t *testing.T) {
 						Via:            "web",
 					},
 				},
+				size: 1,
 			},
 		},
 		{
@@ -73,7 +75,7 @@ func TestSearchTicket(t *testing.T) {
 			keyTerm: "submitter_id",
 			value:   "71",
 			expected: TicketResult{
-				[]schema.Ticket{
+				data: []schema.Ticket{
 					{
 						ID:             "1a227508-9f39-427c-8f57-1b72f3fab87c",
 						URL:            "http://initech.zendesk.com/api/v2/tickets/1a227508-9f39-427c-8f57-1b72f3fab87c.json",
@@ -93,6 +95,7 @@ func TestSearchTicket(t *testing.T) {
 						Via:            "chat",
 					},
 				},
+				size: 1,
 			},
 		},
 		{
@@ -100,7 +103,7 @@ func TestSearchTicket(t *testing.T) {
 			keyTerm: "type",
 			value:   "incident",
 			expected: TicketResult{
-				[]schema.Ticket{
+				data: []schema.Ticket{
 					{
 						ID:             "436bf9b0-1147-4c0a-8439-6f79833bff5b",
 						URL:            "http://initech.zendesk.com/api/v2/tickets/436bf9b0-1147-4c0a-8439-6f79833bff5b.json",
@@ -138,25 +141,26 @@ func TestSearchTicket(t *testing.T) {
 						Via:            "chat",
 					},
 				},
+				size: 2,
 			},
 		},
 		{
 			name:     "Not found — matched key, unmatched value",
 			keyTerm:  "type",
 			value:    "unmatched",
-			expected: TicketResult{[]schema.Ticket(nil)},
+			expected: TicketResult{data: []schema.Ticket(nil), size: 0},
 		},
 		{
 			name:     "Not found — unmatched key, matched value",
 			keyTerm:  "not_found",
 			value:    "1234",
-			expected: TicketResult{[]schema.Ticket(nil)},
+			expected: TicketResult{data: []schema.Ticket(nil), size: 0},
 		},
 		{
 			name:     "Not found — unmatched key & value",
 			keyTerm:  "not_found",
 			value:    "not_found",
-			expected: TicketResult{[]schema.Ticket(nil)},
+			expected: TicketResult{data: []schema.Ticket(nil), size: 0},
 		},
 	}
 

@@ -19,7 +19,7 @@ func TestSearchUser(t *testing.T) {
 			keyTerm: "_id",
 			value:   "4",
 			expected: UserResult{
-				[]schema.User{
+				data:[]schema.User{
 					{
 						ID:             4,
 						URL:            "http://initech.zendesk.com/api/v2/users/4.json",
@@ -42,6 +42,7 @@ func TestSearchUser(t *testing.T) {
 						Role:           "end-user",
 					},
 				},
+				size: 1,
 			},
 		},
 		{
@@ -49,7 +50,7 @@ func TestSearchUser(t *testing.T) {
 			keyTerm: "name",
 			value:   "Francisca Rasmussen",
 			expected: UserResult{
-				[]schema.User{
+				data: []schema.User{
 					{
 						ID:             1,
 						URL:            "http://initech.zendesk.com/api/v2/users/1.json",
@@ -72,6 +73,7 @@ func TestSearchUser(t *testing.T) {
 						Role:           "admin",
 					},
 				},
+				size: 1,
 			},
 		},
 		{
@@ -79,7 +81,7 @@ func TestSearchUser(t *testing.T) {
 			keyTerm: "tags",
 			value:   "Glenshaw",
 			expected: UserResult{
-				[]schema.User{
+				data: []schema.User{
 					{
 						ID:             4,
 						URL:            "http://initech.zendesk.com/api/v2/users/4.json",
@@ -102,6 +104,7 @@ func TestSearchUser(t *testing.T) {
 						Role:           "end-user",
 					},
 				},
+				size: 1,
 			},
 		},
 		{
@@ -109,7 +112,7 @@ func TestSearchUser(t *testing.T) {
 			keyTerm: "suspended",
 			value:   "true",
 			expected: UserResult{
-				[]schema.User{
+				data: []schema.User{
 					{
 						ID:             1,
 						URL:            "http://initech.zendesk.com/api/v2/users/1.json",
@@ -153,31 +156,32 @@ func TestSearchUser(t *testing.T) {
 						Role:           "end-user",
 					},
 				},
+				size: 2,
 			},
 		},
 		{
 			name:     "Not found — matched key, unmatched value by casing",
 			keyTerm:  "timezone",
 			value:    "netherlands",
-			expected: UserResult{[]schema.User(nil)},
+			expected: UserResult{data: []schema.User(nil), size: 0},
 		},
 		{
 			name:     "Not found — matched key, unmatched value",
 			keyTerm:  "tags",
 			value:    "unmatched1234",
-			expected: UserResult{[]schema.User(nil)},
+			expected: UserResult{data: []schema.User(nil), size: 0},
 		},
 		{
 			name:     "Not found — unmatched key, matched value",
 			keyTerm:  "not_found",
 			value:    "1234",
-			expected: UserResult{[]schema.User(nil)},
+			expected: UserResult{data: []schema.User(nil), size: 0},
 		},
 		{
 			name:     "Not found — unmatched key & value",
 			keyTerm:  "not_found",
 			value:    "not_found",
-			expected: UserResult{[]schema.User(nil)},
+			expected: UserResult{data: []schema.User(nil), size: 0},
 		},
 	}
 
