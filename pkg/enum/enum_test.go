@@ -1,4 +1,4 @@
-package command
+package enum
 
 import (
 	"testing"
