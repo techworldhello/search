@@ -3,12 +3,15 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"github.com/techworldhello/search/pkg/param"
+	"github.com/techworldhello/search/pkg/run"
 	"github.com/techworldhello/search/pkg/setup"
 	"log"
 	"os"
 	"strings"
 
-	"github.com/techworldhello/search/pkg/command"
+	"github.com/techworldhello/search/pkg/enum"
+	"github.com/techworldhello/search/pkg/text"
 )
 
 func main() {
@@ -23,36 +26,42 @@ func main() {
 		log.Fatal("Error preparing files, please check them and try again.")
 	}
 
-	fmt.Print(data)
+	run := run.NewSearchRepo(data)
 
-	command.PrintStartMessage()
+	fmt.Println(text.GetStartMsg())
 	input := readUserInput()
 
 	var isStart = true
-
-	for input != command.Quit.String() {
+	for input != enum.Quit.String() {
 		if isStart {
 			isStart = false
-			command.PrintMenu()
+			fmt.Println(text.GetMenu())
 		}
 
 		input = readUserInput()
 
 		switch input {
-		case command.Search.String():
-			fmt.Println("Enter Search Term")
-		case command.List.String():
+		case enum.Search.String():
+			fmt.Println(text.GetSearchInstructions())
+
+			params := param.Parse(readUserInput())
+			if params == (param.Params{}) {
+				fmt.Println("Invalid params, please use the format [entity]=[term]:[value].")
+				continue
+			}
+			fmt.Println(run.ProcessSearch(params))
+		case enum.List.String():
 			fmt.Println("_____ listing _____")
-		case command.Enter.String():
-			command.PrintMenu()
-		case command.Help.String():
-			command.PrintMenu()
-		case command.Quit.String():
-			command.PrintEndMsg()
+		case enum.Enter.String():
+			fmt.Println(text.GetMenu())
+		case enum.Help.String():
+			fmt.Println(text.GetMenu())
+		case enum.Quit.String():
+			fmt.Println(text.GetEndMsg())
 			return
 		}
 	}
-	command.PrintEndMsg()
+	fmt.Println(text.GetEndMsg())
 }
 
 func readUserInput() string {
