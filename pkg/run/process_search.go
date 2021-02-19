@@ -22,6 +22,7 @@ type Handler interface {
 type SearchRepo struct {
 	setup.Data
 	table format.Table
+	json  format.Json
 }
 
 // NewSearchRepo returns an initialised instance of SearchRepo
@@ -31,6 +32,28 @@ func NewSearchRepo(d setup.Data) *SearchRepo {
 
 // ProcessSearch returns search results based on the entity parameter
 func (s SearchRepo) ProcessSearch(params param.Params) string {
+	result := s.runSearch(params)
+	if result == nil || result.GetSize() == 0 {
+		return "No results found"
+	}
+
+	switch params.Format {
+	case "table":
+		s.table.Render(result)
+	case "json":
+		str, err := result.ToString()
+		if err != nil {
+			return "Error parsing result"
+		}
+		s.json.Render(str)
+	default:
+		return fmt.Sprintf("Cannot present data in %s format", params.Format)
+	}
+
+	return ""
+}
+
+func (s SearchRepo) runSearch(params param.Params) (sr search.Result) {
 	var h Handler
 
 	switch params.Entity {
@@ -41,15 +64,8 @@ func (s SearchRepo) ProcessSearch(params param.Params) string {
 	case "organizations":
 		h = s.Organization
 	default:
-		return fmt.Sprintf("Data type %s does not exist", params.Entity)
+		return sr
 	}
 
-	result := h.Search(params.Term, params.Value)
-	if result.GetSize() == 0 || result == nil {
-		return "No results found"
-	}
-
-	s.table.Render(result)
-
-	return ""
+	return h.Search(params.Term, params.Value)
 }

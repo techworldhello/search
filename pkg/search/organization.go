@@ -1,6 +1,7 @@
 package search
 
 import (
+	"encoding/json"
 	"github.com/techworldhello/search/pkg/schema"
 	"strconv"
 	"strings"
@@ -38,6 +39,14 @@ func (o OrganizationResult) Format() (all [][]string) {
 		all = append(all, row)
 	}
 	return all
+}
+
+func (o OrganizationResult) ToString() (string, error) {
+	bytes, err := json.Marshal(o.data)
+	if err != nil {
+		return "", err
+	}
+	return string(bytes), nil
 }
 
 // Search returns all organization results matching on term and value

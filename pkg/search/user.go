@@ -1,6 +1,7 @@
 package search
 
 import (
+	"encoding/json"
 	"github.com/techworldhello/search/pkg/schema"
 	"strconv"
 	"strings"
@@ -47,6 +48,14 @@ func (u UserResult) Format() (all [][]string) {
 		all = append(all, row)
 	}
 	return all
+}
+
+func (u UserResult) ToString() (string, error) {
+	bytes, err := json.Marshal(u.data)
+	if err != nil {
+		return "", err
+	}
+	return string(bytes), nil
 }
 
 // Search returns all user results matching on term and value

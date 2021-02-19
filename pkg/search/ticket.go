@@ -1,6 +1,7 @@
 package search
 
 import (
+	"encoding/json"
 	"github.com/techworldhello/search/pkg/schema"
 	"strconv"
 	"strings"
@@ -44,6 +45,14 @@ func (t TicketResult) Format() (all [][]string) {
 		all = append(all, row)
 	}
 	return all
+}
+
+func (t TicketResult) ToString() (string, error) {
+	bytes, err := json.Marshal(t.data)
+	if err != nil {
+		return "", err
+	}
+	return string(bytes), nil
 }
 
 // Search returns all ticket results matching on term and value

@@ -13,8 +13,9 @@ func TestParseParams(t *testing.T) {
 	}{
 		{
 			name: "User params are correctly parsed",
-			params: "users=_id:1",
+			params: "table-users=_id:1",
 			expected: Params{
+				Format: "table",
 				Entity: "users",
 				Term:   "_id",
 				Value:  "1",
@@ -22,8 +23,9 @@ func TestParseParams(t *testing.T) {
 		},
 		{
 			name: "Ticket params are correctly parsed",
-			params: "tickets=status:pending",
+			params: "json-tickets=status:pending",
 			expected: Params{
+				Format: "json",
 				Entity: "tickets",
 				Term:   "status",
 				Value:  "pending",
@@ -36,7 +38,7 @@ func TestParseParams(t *testing.T) {
 		},
 		{
 			name:     "Params not parsed due to invalid entity",
-			params:   "ticket=_id:1",
+			params:   "another_format-ticket=_id:1",
 			expected: Params{},
 		},
 	}
