@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"github.com/techworldhello/search/pkg/format"
 	"github.com/techworldhello/search/pkg/param"
 	"github.com/techworldhello/search/pkg/run"
@@ -48,7 +47,7 @@ func main() {
 
 			params := param.Parse(readUserInput())
 			if params == (param.Params{}) {
-				fmt.Println("Invalid params, please use the format [entity]=[term]:[value].")
+				text.ColourWhite(text.GetInvalidParamMsg())
 				continue
 			}
 			text.ColourWhite(run.ProcessSearch(params))

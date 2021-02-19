@@ -28,8 +28,3 @@ func ColourPurple(msg string) {
 func ColourWhite(msg string) {
 	fmt.Println("\033[37m", msg, colourReset)
 }
-
-// ColourRed writes red coloured text to stdout
-func ColourRed(msg string) {
-	fmt.Println("\033[31m", msg, colourReset)
-}

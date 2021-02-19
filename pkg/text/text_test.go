@@ -14,12 +14,12 @@ func TestGetMessages(t *testing.T) {
 		{
 			name:     "Gets start message",
 			function: GetStartMsg,
-			expected: ">>> Welcome to Zendesk Search <<<\nType 'quit' to exit at any time, press 'Enter' to continue",
+			expected: "👋 Welcome to Zendesk Search!\n\nType 'quit' to exit at any time, press 'Enter' to continue",
 		},
 		{
 			name:     "Gets menu message",
 			function: GetMenu,
-			expected: "Select search options:\n  * Press 1 to search Zendesk\n  * Press 2 to view a list of searchable fields\n  * Type 'quit' to exit",
+			expected: "Select search options:\n  > Press 1 to search Zendesk\n  > Press 2 to view a list of searchable fields\n  > Type 'quit' to exit",
 		},
 		{
 			name:     "Gets end message",
@@ -29,7 +29,12 @@ func TestGetMessages(t *testing.T) {
 		{
 			name:     "Gets search instructions",
 			function: GetSearchInstructions,
-			expected: "Please search using the following format [entity]=[term]:[value]\n  Eg. users=_id:1\n  Eg. tickets=tags:Alaska\n  Eg. organizations=domain_names:zentix.com",
+			expected: "🔎 Please search using the following format [view]-[entity]=[field]:[value]\n\n  > [view] can either be json or table — it is the way you'd like your data displayed\n  > [entity] can either be users, tickets or organizations\n\n  Eg. table-users=_id:1\n      table-tickets=tags:Alaska\n      json-organizations=domain_names:zentix.com",
+		},
+		{
+			name:     "Gets an invalid param warning msg",
+			function: GetInvalidParamMsg,
+			expected: "Invalid search params, please use the format [view]-[entity]=[field]:[value]",
 		},
 	}
 
