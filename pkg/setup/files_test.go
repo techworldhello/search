@@ -139,7 +139,7 @@ func TestPrepareJSONDataCannotFindFile(t *testing.T) {
 }
 
 func TestPrepareJSONDataCannotUnmarshalData(t *testing.T) {
-	f := FilePaths{User: "../mocks/wrong-format.xml"}
+	f := FilePaths{Ticket: "../mocks/wrong-format.xml"}
 
 	data, err := f.PrepareJSONData()
 

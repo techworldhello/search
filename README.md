@@ -84,5 +84,4 @@ Note: you will need to set and export the following env vars if you simply run `
   * An in-memory cache that stores the search params as key. Each search result is memoized, making the next search with same parameters constant time
   * Preprocess the data and build up an inverted index on app load, so that every string in the data is associated with an index that contains that string ([library considered](https://github.com/blevesearch/bleve))
 * The file paths are ideally not stored as relative paths in env vars nor should the files be stored locally. In a production environment, the files could be encrypted and stored in object storage like S3, or mapped to a database for data indexing thus faster retrieval 
-* Go routines could be used for reading in the files and unmarshalling them into structs, this would improve performance especially if more files or bigger datasets were added
 * Currently the program is reading an entire file's contents into memory — this could be made more elegant by opening the file, then using the `oi` package for more controlled reading

@@ -2,6 +2,8 @@ package setup
 
 import (
 	"encoding/json"
+	"fmt"
+	"sync"
 
 	"github.com/techworldhello/search/pkg/search"
 )
@@ -34,60 +36,98 @@ type Data struct {
 
 // PrepareJSONData reads the content of each file and unmarshals JSON data to struct
 func (fp FilePaths) PrepareJSONData() (d Data, err error) {
-	users, err := fp.loadUsers(JSONReader{fp.User})
-	if err != nil {
-		return d, err
+	var wg sync.WaitGroup
+
+	userChan := make(chan search.User, 1)
+	userErrChan := make(chan error, 1)
+	wg.Add(1)
+	go fp.loadUsers(JSONReader{fp.User}, userChan, userErrChan, &wg)
+	userErr := <-userErrChan
+
+	ticketChan := make(chan search.Ticket, 1)
+	ticketErrChan := make(chan error, 1)
+	wg.Add(1)
+	go fp.loadTickets(JSONReader{fp.Ticket}, ticketChan, ticketErrChan, &wg)
+	ticketErr := <-ticketErrChan
+
+	orgChan := make(chan search.Organization, 1)
+	orgErrChan := make(chan error, 1)
+	wg.Add(1)
+	go fp.loadOrganizations(JSONReader{fp.Organization}, orgChan, orgErrChan, &wg)
+	orgErr := <- orgErrChan
+
+	wg.Wait()
+
+	if userErr != nil || ticketErr != nil || orgErr != nil {
+		return d, fmt.Errorf("Error loading files.\n" +
+			"User: %+v,\n" +
+			"Ticket: %+v,\n" +
+			"Organization: %+v\n", userErr, ticketErr, orgErr)
 	}
-	tickets, err := fp.loadTickets(JSONReader{fp.Ticket})
-	if err != nil {
-		return d, err
-	}
-	orgs, err := fp.loadOrganizations(JSONReader{fp.Organization})
-	if err != nil {
-		return d, err
-	}
+
 	return Data{
-		users,
-		tickets,
-		orgs,
+		<- userChan,
+		<- ticketChan,
+		<- orgChan,
 	}, nil
 }
 
-func (fp FilePaths) loadUsers(jr JSONReader) (search.User, error) {
+func (fp FilePaths) loadUsers(jr JSONReader, outChan chan search.User, errChan chan error, wg *sync.WaitGroup) {
+	defer close(outChan)
+	defer close(errChan)
+	defer wg.Done()
+
 	var users search.User
 
 	content, err := jr.ReadFile()
 	if err != nil {
-		return users, err
+		errChan <- err
+		return
 	}
 	if err := json.Unmarshal(content, &users.Records); err != nil {
-		return users, err
+		errChan <- err
+		return
 	}
-	return users, nil
+
+	outChan <- users
 }
 
-func (fp FilePaths) loadTickets(jr JSONReader) (search.Ticket, error) {
+func (fp FilePaths) loadTickets(jr JSONReader, outChan chan search.Ticket, errChan chan error, wg *sync.WaitGroup) {
+	defer close(outChan)
+	defer close(errChan)
+	defer wg.Done()
+
 	var tickets search.Ticket
 
 	content, err := jr.ReadFile()
 	if err != nil {
-		return tickets, err
+		errChan <- err
+		return
 	}
 	if err := json.Unmarshal(content, &tickets.Records); err != nil {
-		return tickets, err
+		errChan <- err
+		return
 	}
-	return tickets, nil
+
+	outChan <- tickets
 }
 
-func (fp FilePaths) loadOrganizations(jr JSONReader) (search.Organization, error) {
+func (fp FilePaths) loadOrganizations(jr JSONReader, outChan chan search.Organization, errChan chan error, wg *sync.WaitGroup) {
+	defer close(outChan)
+	defer close(errChan)
+	defer wg.Done()
+
 	var orgs search.Organization
 
 	content, err := jr.ReadFile()
 	if err != nil {
-		return orgs, err
+		errChan <- err
+		return
 	}
 	if err := json.Unmarshal(content, &orgs.Records); err != nil {
-		return orgs, err
+		errChan <- err
+		return
 	}
-	return orgs, nil
+
+	outChan <- orgs
 }
