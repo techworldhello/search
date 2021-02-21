@@ -4,8 +4,8 @@ import (
 	"reflect"
 )
 
-func toMap(sr interface{}) map[string]interface{} {
-	v := reflect.ValueOf(sr)
+func toMap(searchResult interface{}) map[string]interface{} {
+	v := reflect.ValueOf(searchResult)
 	values := make(map[string]interface{}, v.NumField())
 	for i := 0; i < v.NumField(); i++ {
 		// if field is exported
