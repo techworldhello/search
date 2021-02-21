@@ -4,11 +4,8 @@ run:
 test:
 	@docker-compose run tests
 
-build:
-	@go build -v -o search
+update:
+	@docker-compose run update
 
 run_binary:
-	@./search
-
-update:
-	@go mod tidy
+	@docker-compose run build_binary

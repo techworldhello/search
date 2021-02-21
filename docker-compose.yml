@@ -1,12 +1,22 @@
 version: '3.4'
+
+x-common-files: &files
+  USERS_FILE: './pkg/data/users.json'
+  TICKETS_FILE: './pkg/data/tickets.json'
+  ORGANIZATIONS_FILE: './pkg/data/organizations.json'
+
 services:
   search:
     build: .
     command: ['go', 'run', 'main.go']
-    environment:
-      USERS_FILE: './pkg/data/users.json'
-      TICKETS_FILE: './pkg/data/tickets.json'
-      ORGANIZATIONS_FILE: './pkg/data/organizations.json'
+    environment: *files
   tests:
     build: .
     command: ['go', 'test', '-v', './...', '-cover']
+  update:
+    build: .
+    command: [ 'go', 'mod', 'tidy' ]
+  build_binary:
+    build: .
+    command: bash -c "go build -v -o search && ./search"
+    environment: *files

@@ -43,6 +43,23 @@ $ make test
 $ make run
 ```
 
+#### Update dependencies
+
+```
+$ make update
+```
+
+#### Build & run the binary
+
+```
+$ make run_binary
+```
+
+Note: you will need to set and export the following env vars if you simply run `go run main.go` — find the values in `docker-compose.yml` file
+* `USERS_FILE`
+* `TICKETS_FILE`
+* `ORGANIZATIONS_FILE`
+
 Just hit 'Enter' to clear state and return to the main menu:\
 ![Alt text](./images/start-app.png)
 
@@ -51,29 +68,6 @@ Entering 'help' will always output the main menu:\
 
 Sample search result:\
 ![Alt text](./images/result.png)
-
-&nbsp;
-
-**The following commands will require Go installed.** Please download the appropriate version for your machine [here](https://golang.org/dl/).
-
-#### Update dependencies
-
-```
-$ make update
-```
-
-
-#### Build & run the binary
-
-```
-$ make build
-$ make run_binary
-```
-
-Note: you will need to set and export the following env vars if you simply run `go run main.go` — find the values in `docker-compose.yml` file
-* `USERS_FILE`
-* `TICKETS_FILE`
-* `ORGANIZATIONS_FILE`
 
 ## Improvements & considerations
 
@@ -85,3 +79,4 @@ Note: you will need to set and export the following env vars if you simply run `
   * Preprocess the data and build up an inverted index on app load, so that every string in the data is associated with an index that contains that string ([library considered](https://github.com/blevesearch/bleve))
 * The file paths are ideally not stored as relative paths in env vars nor should the files be stored locally. In a production environment, the files could be encrypted and stored in object storage like S3, or mapped to a database for data indexing thus faster retrieval 
 * Currently the program is reading an entire file's contents into memory — this could be made more elegant by opening the file, then using the `oi` package for more controlled reading
+* Stronger validation is needed on the search params — currently the program cannot tell the difference between wrong format and unsupported values on view type and entity
