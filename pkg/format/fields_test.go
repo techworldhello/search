@@ -6,7 +6,7 @@ import (
 )
 
 func TestList(t *testing.T) {
-	f := Fields{}
+	f := NewSearchFields()
 
 	reflect.DeepEqual(expectedList, f.List())
 }

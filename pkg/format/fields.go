@@ -6,21 +6,21 @@ import (
 	"strings"
 )
 
-// Fields holds the types with searchable fields
-type Fields struct {
+// SearchFields holds the types with searchable fields
+type SearchFields struct {
 	schema.User
 	schema.Ticket
 	schema.Organization
 }
 
-// NewFields returns an initialised instance of Fields
-func NewFields() *Fields {
-	return &Fields{}
+// NewSearchFields returns an initialised instance of SearchFields
+func NewSearchFields() *SearchFields {
+	return &SearchFields{}
 }
 
 // List returns all searchable fields
-func (f Fields) List() string {
-	tagsMap := getHeaderTagsInMap(f.User, f.Ticket, f.Organization)
+func (sf SearchFields) List() string {
+	tagsMap := getHeaderTagsInMap(sf.User, sf.Ticket, sf.Organization)
 
 	var output string
 	for k, v := range tagsMap {
