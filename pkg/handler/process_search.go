@@ -1,21 +1,20 @@
-package run
+package handler
 
 import (
 	"fmt"
 	"github.com/techworldhello/search/pkg/format"
-	"github.com/techworldhello/search/pkg/param"
 	"github.com/techworldhello/search/pkg/search"
 	"github.com/techworldhello/search/pkg/setup"
 )
 
-// Searcher provides the ability to search for result
-type Searcher interface {
-	Search(term, value string) search.Result
-}
-
 // Handler is the interface that groups the search method
 type Handler interface {
 	Searcher
+}
+
+// Searcher provides the ability to search for result
+type Searcher interface {
+	Search(term, value string) search.Result
 }
 
 // SearchRepo holds the data needed to execute search
@@ -31,13 +30,13 @@ func NewSearchRepo(d setup.Data) *SearchRepo {
 }
 
 // ProcessSearch returns search results based on the entity parameter
-func (s SearchRepo) ProcessSearch(params param.Params) string {
+func (s SearchRepo) ProcessSearch(params Params) string {
 	result := s.runSearch(params)
 	if result == nil || result.GetSize() == 0 {
 		return "No results found"
 	}
 
-	switch params.Format {
+	switch params.format {
 	case "table":
 		s.table.Render(result)
 	case "json":
@@ -47,16 +46,16 @@ func (s SearchRepo) ProcessSearch(params param.Params) string {
 		}
 		s.json.Render(str)
 	default:
-		return fmt.Sprintf("Cannot present data in %s format", params.Format)
+		return fmt.Sprintf("Cannot present data in %s format", params.format)
 	}
 
 	return ""
 }
 
-func (s SearchRepo) runSearch(params param.Params) (sr search.Result) {
+func (s SearchRepo) runSearch(params Params) (sr search.Result) {
 	var h Handler
 
-	switch params.Entity {
+	switch params.entity {
 	case "users":
 		h = s.User
 	case "tickets":
@@ -67,5 +66,5 @@ func (s SearchRepo) runSearch(params param.Params) (sr search.Result) {
 		return sr
 	}
 
-	return h.Search(params.Term, params.Value)
+	return h.Search(params.term, params.value)
 }

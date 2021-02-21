@@ -3,8 +3,7 @@ package main
 import (
 	"bufio"
 	"github.com/techworldhello/search/pkg/format"
-	"github.com/techworldhello/search/pkg/param"
-	"github.com/techworldhello/search/pkg/run"
+	"github.com/techworldhello/search/pkg/handler"
 	"github.com/techworldhello/search/pkg/setup"
 	"log"
 	"os"
@@ -26,8 +25,8 @@ func main() {
 		log.Fatal("Error preparing files, please check them and try again.")
 	}
 
-	run := run.NewSearchRepo(data)
-	fields := format.NewFields()
+	repo := handler.NewSearchRepo(data)
+	fields := format.NewSearchFields()
 
 	text.ColourPurple(text.GetStartMsg())
 	input := readUserInput()
@@ -44,13 +43,12 @@ func main() {
 		switch input {
 		case enum.Search.String():
 			text.ColourGreen(text.GetSearchInstructions())
-
-			params := param.Parse(readUserInput())
-			if params == (param.Params{}) {
+			params := handler.ParseParams(readUserInput())
+			if params == (handler.Params{}) {
 				text.ColourWhite(text.GetInvalidParamMsg())
 				continue
 			}
-			text.ColourWhite(run.ProcessSearch(params))
+			text.ColourWhite(repo.ProcessSearch(params))
 		case enum.List.String():
 			text.ColourYellow(fields.List())
 		case enum.Enter.String():

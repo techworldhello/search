@@ -1,7 +1,6 @@
-package run
+package handler
 
 import (
-	"github.com/techworldhello/search/pkg/param"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -13,96 +12,96 @@ import (
 func TestProcessSearch(t *testing.T) {
 	expectations := []struct {
 		name     string
-		params   param.Params
+		params   Params
 		expected string
 	}{
 		{
 			name: "User record is found",
-			params: param.Params{
-				Format: "table",
-				Entity: "users",
-				Term:   "_id",
-				Value:  "4",
+			params: Params{
+				format: "table",
+				entity: "users",
+				term:   "_id",
+				value:  "4",
 			},
 			expected: "",
 		},
 		{
 			name: "User record is not found on search value",
-			params: param.Params{
-				Format: "table",
-				Entity: "users",
-				Term:   "_id",
-				Value:  "1234",
+			params: Params{
+				format: "table",
+				entity: "users",
+				term:   "_id",
+				value:  "1234",
 			},
 			expected: "No results found",
 		},
 		{
 			name: "Ticket record is found",
-			params: param.Params{
-				Format: "json",
-				Entity: "tickets",
-				Term:   "priority",
-				Value:  "high",
+			params: Params{
+				format: "json",
+				entity: "tickets",
+				term:   "priority",
+				value:  "high",
 			},
 			expected: "",
 		},
 		{
 			name: "Ticket record is not found on search key",
-			params: param.Params{
-				Format: "json",
-				Entity: "tickets",
-				Term:   "not_found",
-				Value:  "true",
+			params: Params{
+				format: "json",
+				entity: "tickets",
+				term:   "not_found",
+				value:  "true",
 			},
 			expected: "No results found",
 		},
 		{
 			name: "Ticket record is not found on search value",
-			params: param.Params{
-				Format: "table",
-				Entity: "tickets",
-				Term:   "created_at",
-				Value:  "not_found",
+			params: Params{
+				format: "table",
+				entity: "tickets",
+				term:   "created_at",
+				value:  "not_found",
 			},
 			expected: "No results found",
 		},
 		{
 			name: "Organization record is found",
-			params: param.Params{
-				Format: "table",
-				Entity: "organizations",
-				Term:   "tags",
-				Value:  "Cherry",
+			params: Params{
+				format: "table",
+				entity: "organizations",
+				term:   "tags",
+				value:  "Cherry",
 			},
 			expected: "",
 		},
 		{
 			name: "Organization record is not found on search value",
-			params: param.Params{
-				Format: "json",
-				Entity: "organizations",
-				Term:   "_id",
-				Value:  "1234",
+			params: Params{
+				format: "json",
+				entity: "organizations",
+				term:   "_id",
+				value:  "1234",
 			},
 			expected: "No results found",
 		},
 		{
 			name: "Record not found — entity does not exist",
-			params: param.Params{
-				Format: "table",
-				Entity: "usr",
-				Term:   "_id",
-				Value:  "4",
+			params: Params{
+				format: "table",
+				entity: "usr",
+				term:   "_id",
+				value:  "4",
 			},
 			expected: "No results found",
 		},
 		{
 			name: "Output format is not supported",
-			params: param.Params{
-				Format: "xml",
-				Entity: "users",
-				Term:   "_id",
-				Value:  "4",
+			params: Params{
+				format: "xml",
+				entity: "users",
+				term:   "_id",
+				value:  "4",
 			},
 			expected: "Cannot present data in xml format",
 		},

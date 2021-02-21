@@ -1,4 +1,4 @@
-package param
+package handler
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -15,20 +15,20 @@ func TestParseParams(t *testing.T) {
 			name: "User params are correctly parsed",
 			params: "table-users=_id:1",
 			expected: Params{
-				Format: "table",
-				Entity: "users",
-				Term:   "_id",
-				Value:  "1",
+				format: "table",
+				entity: "users",
+				term:   "_id",
+				value:  "1",
 			},
 		},
 		{
 			name: "Ticket params are correctly parsed",
 			params: "json-tickets=status:pending",
 			expected: Params{
-				Format: "json",
-				Entity: "tickets",
-				Term:   "status",
-				Value:  "pending",
+				format: "json",
+				entity: "tickets",
+				term:   "status",
+				value:  "pending",
 			},
 		},
 		{
@@ -45,7 +45,7 @@ func TestParseParams(t *testing.T) {
 
 	for _, expect := range expectations {
 		t.Run(expect.name, func(t *testing.T) {
-			assert.Equal(t, expect.expected, Parse(expect.params))
+			assert.Equal(t, expect.expected, ParseParams(expect.params))
 		})
 	}
 }

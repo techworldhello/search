@@ -1,4 +1,4 @@
-package param
+package handler
 
 import (
 	"regexp"
@@ -6,14 +6,14 @@ import (
 
 // Params holds the params needed to process search
 type Params struct {
-	Format string
-	Entity string
-	Term   string
-	Value  string
+	format string
+	entity string
+	term   string
+	value  string
 }
 
-// Parse returns the search params required by Searcher
-func Parse(params string) Params {
+// ParseParams returns the search params required by Searcher
+func ParseParams(params string) Params {
 	reg, err := regexp.Compile("^(table|json)-(users|tickets|organizations)=(.*):(.*)$")
 	if err != nil {
 		return Params{}
@@ -22,10 +22,10 @@ func Parse(params string) Params {
 	match := reg.FindStringSubmatch(params)
 	if len(match) == 5 {
 		return Params{
-			Format: match[1],
-			Entity: match[2],
-			Term:   match[3],
-			Value:  match[4],
+			format: match[1],
+			entity: match[2],
+			term:   match[3],
+			value:  match[4],
 		}
 	}
 
